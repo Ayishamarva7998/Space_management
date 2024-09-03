@@ -10,7 +10,11 @@ function App() {
     <div style={{backgroundColor:"black",height:"500px",width:"500px"}}></div>
     <div style={{backgroundColor:"black",height:"500px",width:"500px"}}></div>
     <div style={{backgroundColor:"black",height:"500px",width:"500px"}}></div>
-    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>hjfvbhjvhad</div>
+    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>hjfvbhj</div>
+    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>anas</div>
+    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>anas</div>
+    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>anas</div>
+    <div style={{backgroundColor:"black",height:"500px",width:"500px"}}>anas</div>
     </>
   )
 }
