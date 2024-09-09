@@ -1,5 +1,5 @@
 import react  from 'react'
-import Login from './components/auth/auth'
+import Login from './components/auth/Login'
 
 
 
