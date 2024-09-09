@@ -30,10 +30,16 @@ const Login = () => {
     <div className='relative'>
       <img src={IMG} alt="" className='h-[100vh] w-[100%]' />
 
-      <div className='bg-opacity-70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100vh] w-[100%] bg-black'>
-        <div className='flex bg-white rounded-xl items-center justify-around shadow-xl p-2 bg-opacity-70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[80vh] w-[900px]'>
-          <div>
-            <div className="rounded-xl p-10 shadow-xl bg-white max-w-md w-full bg-opacity-50">
+      <div className='bg-opacity-70 absolute top-0 left-0 h-full w-full bg-black flex items-center justify-center'>
+        <div className='flex flex-col md:flex-row bg-white rounded-xl items-center justify-around shadow-xl p-4 bg-opacity-70 h-auto w-[90%] md:w-[900px]'>
+
+          <div className='mb-6 md:mb-0 order-1 md:order-2 w-full md:w-1/2 flex justify-center'>
+            <img src={Logo} alt="Logo" className='w-[200px] md:w-[400px] max-w-full' />
+          </div>
+
+      
+          <div className='w-full md:w-1/2 order-2 md:order-1'>
+            <div className="rounded-xl p-6 md:p-10 shadow-xl bg-white bg-opacity-50">
               
               <Formik
                 initialValues={{ email: '', password: '' }}
@@ -97,13 +103,11 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <div>
-            <img src={Logo} alt="" className='w-[400px]' />
-          </div>
+
         </div>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Login;
