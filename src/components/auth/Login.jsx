@@ -4,6 +4,9 @@ import * as Yup from 'yup'
 import IMG from "../../asset/background.jpg"
 import Logo from '../../asset/Logo.png';
 import { add_login } from '../../api/authentication_api'
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email format').required('Email is required'),
@@ -17,17 +20,20 @@ const Login = () => {
       const res = await add_login(values)
       if(res){
         localStorage.setItem("token",res.data.token)
+        toast.success(res.data.message);
       }
       console.log(res);
       
       resetForm();
     } catch (error) {
+      toast.error(error.message);
       console.log(error);
     }
   }
 
   return (
     <div className='relative'>
+  
       <img src={IMG} alt="" className='h-[100vh] w-[100%]' />
 
       <div className='bg-opacity-70 absolute top-0 left-0 h-full w-full bg-black flex items-center justify-center'>
@@ -91,9 +97,7 @@ const Login = () => {
               </Formik>
 
               <div className="mt-8 flex items-center justify-center space-x-4">
-                <button className="bg-white border border-gray-300 text-gray-600 py-2 px-4 rounded-full shadow-md hover:bg-gray-100 transition duration-300">
-                  <i className="fab fa-google"></i>
-                </button>
+                
               </div>
 
               <div className="mt-6 text-center">
