@@ -1,18 +1,15 @@
-import react  from 'react'
-import Login from './components/auth/Login'
-import { ToastContainer } from 'react-toastify'
+import react from "react";
+import { ToastContainer } from "react-toastify";
+import Login from "./components/auth/Login";
 
 
 function App() {
- 
-
   return (
     <>
-  <ToastContainer/>
-   <Login/>
-    
+      <ToastContainer />
+      <Login/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
