@@ -4,8 +4,9 @@ import * as Yup from 'yup'
 import IMG from "../../asset/background.jpg"
 import Logo from '../../asset/Logo.png';
 import { add_login } from '../../api/authentication_api'
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const validationSchema = Yup.object().shape({
@@ -15,16 +16,24 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
 
+  const navigate = useNavigate()
+
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const res = await add_login(values)
       if(res){
         localStorage.setItem("token",res.data.token)
-        toast.success(res.data.message);
+        
+        toast.success(res.data.message)
+        
+        
       }
-      console.log(res);
-      
       resetForm();
+  
+
+      
+      
+   
     } catch (error) {
       toast.error(error.message);
       console.log(error);
