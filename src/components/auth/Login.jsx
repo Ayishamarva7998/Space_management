@@ -1,10 +1,10 @@
-import React from 'react'
+
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import IMG from "../../asset/background.jpg"
 import Logo from '../../asset/Logo.png';
 import { add_login } from '../../api/authentication_api'
-import { toast, ToastContainer } from "react-toastify"
+import { toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 
 
