@@ -1,20 +1,16 @@
-
-
+import react from 'react'
 import { ToastContainer } from 'react-toastify'
-import Managestaff from './components/admin/Managestaff'
+import Approute from './routes/Approute'
 
 
 function App() {
- 
-
   return (
     <>
   <ToastContainer/>
-  <Managestaff/>
-   {/* <Login/> */}
+  <Approute/>
     
     </>
-  )
+  );
 }
 
-export default App
+export default App;

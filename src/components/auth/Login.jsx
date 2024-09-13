@@ -4,8 +4,15 @@ import * as Yup from 'yup'
 import IMG from "../../asset/background.jpg"
 import Logo from '../../asset/Logo.png';
 import { add_login } from '../../api/authentication_api'
+<<<<<<< HEAD
 import { toast} from "react-toastify"
+=======
+import { toast } from "react-toastify"
+>>>>>>> 8543614fa92306c795617ab6ce2ad4a4c51de899
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 const validationSchema = Yup.object().shape({
@@ -13,7 +20,13 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(5, 'Password must be at least 5 characters').required('Password is required'),
 });
 
+
+
+
+
 const Login = () => {
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -21,10 +34,16 @@ const Login = () => {
       if(res){
         localStorage.setItem("token",res.data.token)
         toast.success(res.data.message);
+        navigate('/admin/dashboard')
+       
+       
       }
-      console.log(res);
-      
       resetForm();
+  
+
+      
+      
+   
     } catch (error) {
       toast.error(error.message);
       console.log(error);
