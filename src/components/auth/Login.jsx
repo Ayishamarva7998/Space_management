@@ -23,7 +23,7 @@ const Login = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const res = await userInstance.post(`/login`, values);
+      const res = await userInstance.post(`/api/login`, values);
       if (res) {
         localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
