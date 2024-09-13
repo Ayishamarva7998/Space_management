@@ -1,6 +1,6 @@
-import react  from 'react'
-import Login from './components/auth/Login'
+import react from 'react'
 import { ToastContainer } from 'react-toastify'
+import Approute from './routes/Approute'
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <>
   <ToastContainer/>
-   <Login/>
+  <Approute/>
     
     </>
   )
