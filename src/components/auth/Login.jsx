@@ -9,10 +9,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 
+
+
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email format').required('Email is required'),
   password: Yup.string().min(5, 'Password must be at least 5 characters').required('Password is required'),
 });
+
+
+
+
 
 const Login = () => {
 
@@ -23,10 +29,10 @@ const Login = () => {
       const res = await add_login(values)
       if(res){
         localStorage.setItem("token",res.data.token)
-        
-        toast.success(res.data.message)
-        
-        
+        toast.success(res.data.message);
+        navigate('/admin/dashboard')
+       
+       
       }
       resetForm();
   

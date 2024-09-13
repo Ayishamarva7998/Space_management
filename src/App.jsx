@@ -1,13 +1,14 @@
-import react from "react";
-import { ToastContainer } from "react-toastify";
-import Login from "./components/auth/Login";
+import react from 'react'
+import { ToastContainer } from 'react-toastify'
+import Approute from './routes/Approute'
 
 
 function App() {
   return (
     <>
-      <ToastContainer />
-      <Login/>
+  <ToastContainer/>
+  <Approute/>
+    
     </>
   );
 }
