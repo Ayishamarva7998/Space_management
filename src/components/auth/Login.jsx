@@ -4,11 +4,8 @@ import * as Yup from 'yup'
 import IMG from "../../asset/background.jpg"
 import Logo from '../../asset/Logo.png';
 import { add_login } from '../../api/authentication_api'
-<<<<<<< HEAD
 import { toast} from "react-toastify"
-=======
-import { toast } from "react-toastify"
->>>>>>> 8543614fa92306c795617ab6ce2ad4a4c51de899
+
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
