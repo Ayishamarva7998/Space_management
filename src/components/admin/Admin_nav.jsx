@@ -21,6 +21,7 @@ import { PiStudentBold } from "react-icons/pi";
 import { GiCash } from "react-icons/gi";
 import { FaMessage } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
+import Admin_dashboard from "./Admin_dashboard";
 
 const Admin_nav = () => {
   const [open, setOpen] = useState(false);
@@ -201,9 +202,8 @@ const Admin_nav = () => {
                   to={`/admin/${e.url}`}
                   onClick={() => setSideBar(!sideBar)}
                   key={index}
-                  className={`flex justify-center gap-3 items-center md:py-2 md:px-4 rounded-lg bg-[#13425c] text-white transition-all duration-300 h-[45px] md:w-[200px] w-full hover:bg-[#e16a80] ${
-                    url === e.url && "bg-[#e64c67]"
-                  }`}
+                  className={`flex justify-center gap-3 items-center md:py-2 md:px-4 rounded-lg bg-[#13425c] text-white transition-all duration-300 h-[45px] md:w-[200px] w-full hover:bg-[#e16a80] 
+                    ${url === e.url && "bg-[#e64c67]"}`}
                 >
                   <div>{e.icon}</div>
                   <span
@@ -217,7 +217,13 @@ const Admin_nav = () => {
           </aside>
 
           {/* Content Div */}
-          <div className="overflow-auto justify-center items-center text-white w-[100%]"></div>
+          <div className="overflow-auto justify-center items-center text-white w-[100%]">
+
+          {url==="dashboard"?<Admin_dashboard/>:<></>}
+
+
+          </div>
+
         </div>
       </div>
     </>
