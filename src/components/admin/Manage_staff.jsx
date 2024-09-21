@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { addstaff } from "../../api/authentication_api";
 import { toast } from "react-toastify";
+import Loading from "../Modal/Loading";
+import userInstance from "../../axios_interceptor/userAxios";
 
 const validationSchema = Yup.object({
   firstname: Yup.string().required("First name is required"),
@@ -18,11 +19,11 @@ const validationSchema = Yup.object({
   role: Yup.string().required("Role is required"),
 });
 
-const Manage_staff = () => {
+const Manage_staff = ({ setOpen }) => {
   const [badgeColor, setBadgeColor] = useState("#000000");
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState();
-  const [loading, setLoading] = useState(false);
+  const [load, Setload] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +39,7 @@ const Manage_staff = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
+      Setload(true);
 
       const formDataToSend = new FormData();
       Object.keys(values).forEach((key) => {
@@ -51,14 +52,20 @@ const Manage_staff = () => {
       }
 
       try {
-        const response = await addstaff(formDataToSend);
+        const response = await userInstance.post('/staff',formDataToSend)
+
         toast.success(response.data.message);
       } catch (error) {
-        toast.error(
-          "Error: " + (error.response?.data?.message || "Something went wrong")
-        );
+        if (error) {
+          toast.error(
+            "Error: " +
+              (error.response?.data?.message || "Something went wrong")
+          );
+        }
       } finally {
-        setLoading(false);
+        Setload(false);
+
+        setOpen(false);
       }
     },
   });
@@ -80,21 +87,16 @@ const Manage_staff = () => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-5 md:p-10">
-      {loading && (
-        <div className="fixed backdrop-blur-md h-[100%] w-[100%] top-0 left-0 flex justify-center items-center">
-          <div className="relative flex items-center justify-center">
-            <div className="absolute w-16 h-16 border-4 border-t-transparent border-pink-500 rounded-full animate-spin"></div>
-            <div className="absolute w-12 h-12 border-4 border-t-transparent border-green-500 rounded-full animate-spin-slow"></div>
-            <div className="absolute w-8 h-8 border-4 border-t-transparent border-blue-500 rounded-full animate-spin-reverse"></div>
-          </div>
-        </div>
-      )}
+    // <div className="bg-gray-100 min-h-screen p-5 md:p-10">
+    <div className=" bg-gray-950y-50 p-6 ml-16 md:ml-64">
+      {load && <Loading />}
 
-      <div className="bg-[#d8cbd7] w-full p-5 md:p-10 rounded-lg">
+      <div className="bg-[#d8cbd7] w-full p-3 md:p-4 rounded-lg">
         <div className="bg-[#f3eff2] rounded-xl h-full">
           <div className="p-5">
-            <h1 className="text-xs md:text-2xl font-bold">Add New Advisor</h1>
+            <h1 className="text-xs md:text-2xl text-black font-bold">
+              Add New Advisor
+            </h1>
           </div>
           <hr />
           <form onSubmit={formik.handleSubmit}>
@@ -129,9 +131,16 @@ const Manage_staff = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row w-full gap-5">
-                <div className="flex flex-col p-5 w-full md:w-1/2 gap-3">
-                  <label htmlFor="firstname">First Name:</label>
+              <div className="flex flex-col md:flex-row text-black  w-full gap-5">
+                <div className="flex flex-col  p-5 w-full md:w-1/2 gap-3">
+                  <label htmlFor="firstname">
+                    First Name:
+                    {formik.errors.firstname && (
+                      <span className="text-red-500 font-bold">
+                        {/* {formik.errors.firstname}* */}*
+                      </span>
+                    )}
+                  </label>
                   <input
                     type="text"
                     name="firstname"
@@ -141,13 +150,13 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.firstname}
                   />
-                  {formik.errors.firstname && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.firstname}
-                    </div>
-                  )}
 
-                  <label htmlFor="lastname">Last Name:</label>
+                  <label htmlFor="lastname">
+                    Last Name:
+                    {formik.errors.lastname && (
+                      <span className="text-red-500 font-bold "></span>
+                    )}
+                  </label>
                   <input
                     type="text"
                     name="lastname"
@@ -157,13 +166,13 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.lastname}
                   />
-                  {formik.errors.lastname && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.lastname}
-                    </div>
-                  )}
 
-                  <label htmlFor="email">Email:</label>
+                  <label htmlFor="email">
+                    Email:
+                    {formik.errors.email && (
+                      <span className="text-red-500 font-bold"></span>
+                    )}
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -173,13 +182,15 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.email}
                   />
-                  {formik.errors.email && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.email}
-                    </div>
-                  )}
 
-                  <label htmlFor="address">Address:</label>
+                  <label htmlFor="address">
+                    Address:
+                    {formik.errors.address && (
+                      <span className="text-red-500 font-bold">
+                        {/* {formik.errors.address}* */}*
+                      </span>
+                    )}
+                  </label>
                   <textarea
                     name="address"
                     id="address"
@@ -187,15 +198,17 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.address}
                   />
-                  {formik.errors.address && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.address}
-                    </div>
-                  )}
                 </div>
 
                 <div className="flex flex-col p-5 w-full md:w-1/2 gap-3">
-                  <label htmlFor="dateofbirth">Date of Birth:</label>
+                  <label htmlFor="dateofbirth">
+                    Date of Birth:
+                    {formik.errors.dateofbirth && (
+                      <span className="text-red-500 font-bold">
+                        {/* {formik.errors.dateofbirth}* */}*
+                      </span>
+                    )}
+                  </label>
                   <input
                     type="date"
                     name="dateofbirth"
@@ -204,13 +217,15 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.dateofbirth}
                   />
-                  {formik.errors.dateofbirth && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.dateofbirth}
-                    </div>
-                  )}
 
-                  <label htmlFor="education">Education:</label>
+                  <label htmlFor="education">
+                    Education:
+                    {formik.errors.education && (
+                      <span className="text-red-500 font-bold">
+                        {/* {formik.errors.education} */}*
+                      </span>
+                    )}
+                  </label>
                   <input
                     type="text"
                     name="education"
@@ -220,13 +235,15 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.education}
                   />
-                  {formik.errors.education && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.education}
-                    </div>
-                  )}
 
-                  <label htmlFor="phonenumber">Phone Number:</label>
+                  <label htmlFor="phonenumber">
+                    Phone Number:
+                    {formik.errors.phonenumber && (
+                      <span className="text-red-500 font-bold">
+                        {/* {formik.errors.phonenumber} * */} *
+                      </span>
+                    )}
+                  </label>
                   <input
                     type="tel"
                     name="phonenumber"
@@ -236,11 +253,6 @@ const Manage_staff = () => {
                     onChange={formik.handleChange}
                     value={formik.values.phonenumber}
                   />
-                  {formik.errors.phonenumber && (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.phonenumber}
-                    </div>
-                  )}
 
                   <div className="flex justify-between items-center mt-3">
                     <div className="flex md:flex-row flex-col gap-2 md:items-center justify-between">
@@ -263,7 +275,14 @@ const Manage_staff = () => {
                   <div className="flex flex-col items-center justify-between md:flex-row gap-5">
                     <div className="flex w-full">
                       <div className="flex flex-col w-full md:w-1/3">
-                        <label htmlFor="batch">Batch:</label>
+                        <label htmlFor="batch">
+                          Batch:
+                          {formik.errors.batch && (
+                            <sapn className="text-red-500 font-bold">
+                              {/* {formik.errors.batch} */}*
+                            </sapn>
+                          )}
+                        </label>
                         <select
                           name="batch"
                           id="batch"
@@ -275,15 +294,17 @@ const Manage_staff = () => {
                           <option value="02">02</option>
                           <option value="03">03</option>
                         </select>
-                        {formik.errors.batch && (
-                          <div className="text-red-500 text-sm">
-                            {formik.errors.batch}
-                          </div>
-                        )}
                       </div>
 
                       <div className="flex flex-col ml-2">
-                        <label htmlFor="role">Role:</label>
+                        <label htmlFor="role">
+                          Role:
+                          {formik.errors.role && (
+                            <span className="text-red-500 font-bold">
+                              {/* {formik.errors.role} */}*
+                            </span>
+                          )}
+                        </label>
                         <select
                           name="role"
                           id="role"
@@ -291,16 +312,10 @@ const Manage_staff = () => {
                           onChange={formik.handleChange}
                           value={formik.values.role}
                         >
-                          <option value="Admin">Admin</option>
                           <option value="Advisor">Advisor</option>
                           <option value="Manager">Manager</option>
                           <option value="Staff">Staff</option>
                         </select>
-                        {formik.errors.role && (
-                          <div className="text-red-500 text-sm">
-                            {formik.errors.role}
-                          </div>
-                        )}
                       </div>
                     </div>
                     <div className="mt-6">
