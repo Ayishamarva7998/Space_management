@@ -3,13 +3,11 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import userInstance from '../../axios_interceptor/userAxios'
 
 export default function Block_staff({ isOpen, onClose,staffData ,SetOpenBlock}) {
-  console.log(staffData);
   
 
  const delete_staff =async(id)=>{
   try {
    const response = await userInstance.delete(`/staff/${id}`)
-   console.log(response);
    SetOpenBlock(false)
    
   } catch (error) {
