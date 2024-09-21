@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Admin_nav from "../components/admin/Admin_nav";
 import Admin_dashboard from "../components/admin/Admin_dashboard";
+import Managestaff from "../components/admin/Manage_staff";
+import Listall_staff from "../components/admin/Listall_staff";
 
 const Approute = () => {
   return (
@@ -12,8 +14,12 @@ const Approute = () => {
           <Route path="/" element={<Login />} />
           <Route path="/admin/:url" element={<Admin_nav/>}/>
           <Route path="/dashboard" element={<Admin_dashboard/>}/>
+          <Route path="/addstaff" element={<Managestaff />} />
+          <Route path="/managestaff" element={<Listall_staff />} />
+           
         </Routes>
       </Router>
+      
       </>
   );
 };

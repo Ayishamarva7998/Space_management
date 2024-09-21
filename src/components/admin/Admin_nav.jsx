@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IMG from "../../asset/Logo.png";
 import { IoIosSettings, IoIosNotifications } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { CiCircleAlert } from "react-icons/ci";
 import {
-  MdRestaurantMenu,
+ 
   MdClose,
   MdOutlineAddCard,
   MdOutlinePostAdd,
@@ -22,19 +22,21 @@ import { GiCash } from "react-icons/gi";
 import { FaMessage } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import Admin_dashboard from "./Admin_dashboard";
+import Listall_staff from "./Listall_staff";
+
 
 const Admin_nav = () => {
   const [open, setOpen] = useState(false);
   const [sideBar, setSideBar] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(null);
   const [openSettings, setOpenSettings] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
 
-  const { url } = useParams();
+  
+  const { url } = useParams('managestaff');
 
   const datas = [
     { name: "Dashboard", icon: <RiDashboard3Line />, url: "dashboard" },
-    { name: "Manage Staff", icon: <MdManageAccounts />, url: "managestaff" },
+    { name: "Manage Staff", icon: <MdManageAccounts />, url:"managestaff" },
     { name: "Manage Intern", icon: <PiStudentBold />, url: "manageintern" },
     { name: "Seats", icon: <MdEventSeat />, url: "seats" },
     { name: "Manage Fees", icon: <GiCash />, url: "managefees" },
@@ -49,13 +51,7 @@ const Admin_nav = () => {
     { button: "Add role", icon: <VscPersonAdd /> },
   ];
 
-  const toggleMenu = (index) => {
-    if (activeMenu === index) {
-      setActiveMenu(null);
-    } else {
-      setActiveMenu(index);
-    }
-  };
+
   return (
     <>
       <div className="min-h-screen flex bg-[#DADFEF]">
@@ -219,7 +215,7 @@ const Admin_nav = () => {
           {/* Content Div */}
           <div className="overflow-auto justify-center items-center text-white w-[100%]">
 
-          {url==="dashboard"?<Admin_dashboard/>:<></>}
+          {url==="dashboard"?<Admin_dashboard/>:url==="managestaff"?<Listall_staff />:<></>}
 
 
           </div>
