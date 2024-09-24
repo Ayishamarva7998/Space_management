@@ -3,13 +3,11 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import userInstance from '../../axios_interceptor/userAxios'
 
 export default function Block_staff({ isOpen, onClose,staffData ,SetOpenBlock}) {
-  console.log(staffData);
   
 
  const delete_staff =async(id)=>{
   try {
    const response = await userInstance.delete(`/staff/${id}`)
-   console.log(response);
    SetOpenBlock(false)
    
   } catch (error) {
@@ -55,7 +53,7 @@ export default function Block_staff({ isOpen, onClose,staffData ,SetOpenBlock}) 
                 onClick={() =>delete_staff(staffData._id)}
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
-                Block
+                Delete
               </button>
               <button
                 type="button"

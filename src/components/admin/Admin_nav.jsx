@@ -20,19 +20,33 @@ import {
 import { PiStudentBold } from "react-icons/pi";
 import { GiCash } from "react-icons/gi";
 import { FaMessage } from "react-icons/fa6";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Admin_dashboard from "./Admin_dashboard";
 import Listall_staff from "./Listall_staff";
+import {Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import Profile from "../Modal/Profile";
+import Manage_interns from "./Manage_interns";
+import { getIdfromToken } from "../../services/authService";
+import userInstance from "../../axios_interceptor/userAxios";
+
 
 
 const Admin_nav = () => {
+  const Navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [sideBar, setSideBar] = useState(false);
-  const [openSettings, setOpenSettings] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
+  const[modal,Setmodal]=useState(false)
+  const[admin,Setadmin]=useState([])
+
+  const signout = ()=>{
+    localStorage.clear();
+    Navigate("/")
+  }
 
   
   const { url } = useParams('managestaff');
+
 
   const datas = [
     { name: "Dashboard", icon: <RiDashboard3Line />, url: "dashboard" },
@@ -51,11 +65,28 @@ const Admin_nav = () => {
     { button: "Add role", icon: <VscPersonAdd /> },
   ];
 
+  const fetchProfile = async () => {
+    try {
+      const adminId = await getIdfromToken()
+      const response = await userInstance.get(`/admin/profile/${adminId}`)
+      Setadmin(response.data)
+    
+
+    } catch (error) {
+      
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchProfile()
+
+  },[])
 
   return (
     <>
       <div className="min-h-screen flex bg-[#DADFEF]">
-        {/* Header */}
+     
         <header className="md:flex fixed hidden w-[100%] h-[80px] z-10 bg-[#FFFDFD] shadow-sm p-1 justify-between items-center">
           <div className="flex gap-10 justify-center items-center">
             <img src={IMG} alt="Logo" className="w-40 md:ml-10 h-14" />
@@ -73,24 +104,50 @@ const Admin_nav = () => {
 
           <div className="flex items-center space-x-2 mr-10">
             <div className="border-black border-r-2 flex gap-4 h-[40px] w-[100px] justify-center items-center">
-              <IoIosSettings
+
+
+            <Menu as="div" className="relative ml-3">
+              <div>
+                <MenuButton className="relative flex  focus:ring-white ">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  <IoIosSettings
                 onClick={() => setOpenSettings(true)}
                 className="text-2xl cursor-pointer"
               />
+                </MenuButton>
+              </div>
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              >
+                <MenuItem  onClick={()=>Setmodal(true)}>
+                  <a className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                    Your Profile
+                  </a>
+                </MenuItem>
+                <MenuItem>
+                  <a onClick={signout} className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                    Sign out
+                  </a>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+         
               <IoIosNotifications
                 onClick={() => setOpenNotification(true)}
                 className="text-2xl"
               />
             </div>
-            <span className="lg:block hidden">admin</span>
+            <span className="lg:block hidden">{admin.name}</span>
             <img
-              src="https://bridgeon.in/model-01.svg"
+              src={admin.profileImg}
               alt="Admin"
               className="w-10 h-10 rounded-full"
             />
           </div>
         </header>
-        {/* NotfiFivctionPop */}
+        
         {openNotification && (
           <div
             className=" fixed top-0 right-0 z-50 flex flex-col items-center justify-center gap-2 h-screen w-full
@@ -116,29 +173,7 @@ const Admin_nav = () => {
           </div>
         )}
 
-        {/* Settings Popup */}
-        {openSettings && (
-          <div
-            className={`fixed top-0 right-0 z-50 flex flex-col items-center justify-center gap-2 h-screen w-full
-             bg-black bg-opacity-50 transition-transform duration-500 ease-out ${
-               openSettings ? "opacity-100 scale-100" : "opacity-0 scale-95"
-             }`}
-          >
-            <MdClose
-              onClick={() => setOpenSettings(false)}
-              className="text-2xl absolute right-0 top-0 text-white bg-[#13425c] rounded-lg mt-3 mr-2 p-2 cursor-pointer"
-            />
-            {buttons.map((x, index) => (
-              <div
-                key={index}
-                className="bg-[#13425c] flex justify-between hover:bg-[#e16a80] items-center text-white font-bold h-[50px] w-[250px] p-2 rounded-lg shadow-sm"
-              >
-                <span className="text-2xl">{x.icon}</span>
-                <span>{x.button}</span>
-              </div>
-            ))}
-          </div>
-        )}
+       
 
         {/* Mobile Screen Header */}
         <div className="md:hidden visible bg-[#FFFDFD] h-[80px] justify-between items-center flex w-[100%] fixed">
@@ -215,13 +250,15 @@ const Admin_nav = () => {
           {/* Content Div */}
           <div className="overflow-auto justify-center items-center text-white w-[100%]">
 
-          {url==="dashboard"?<Admin_dashboard/>:url==="managestaff"?<Listall_staff />:<></>}
+          {url==="dashboard"?<Admin_dashboard/>:url==="managestaff"?<Listall_staff />:url==="manageintern"?<Manage_interns/>:<></>}
 
 
           </div>
 
         </div>
       </div>
+
+      {modal&& <Profile admin={admin} modal={modal}Setmodal={Setmodal}/>}
     </>
   );
 };

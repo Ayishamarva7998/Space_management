@@ -24,7 +24,6 @@ const Login = () => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const res = await userInstance.post(`/login`, values);
-      console.log(res);
       
       if (res) {
         localStorage.setItem("token", res.data.token);
