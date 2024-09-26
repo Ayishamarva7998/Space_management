@@ -29,6 +29,8 @@ const Login = () => {
         localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         navigate("/admin/dashboard");
+      }else {
+        navigate("/");
       }
       resetForm();
     } catch (error) {
