@@ -85,8 +85,10 @@ const Profile = ({ modal, Setmodal,admin }) => {
                     </div>
                     
                   </div>
+
                 ) : activeSection === "addBatch" ? (
                   <div>
+                    
                     <input
                       type="text"
                       value={newBatch}
